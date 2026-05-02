@@ -126,7 +126,8 @@ function RootLayout() {
     configureRevenueCat()
 
     if (!isSupabaseEnabled) {
-      setIsAuthed(false)
+      setIsAuthed(true)
+      setOnboardingCompleted(true)
       return
     }
 
