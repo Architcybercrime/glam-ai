@@ -125,30 +125,25 @@ function RootLayout() {
   useEffect(() => {
     configureRevenueCat()
 
-    if (!isSupabaseEnabled) {
-      setIsAuthed(true)
-      setOnboardingCompleted(true)
-      return
-    }
-
+    // Both real Supabase and local backend go through the same code path
     supabase.auth.getSession().then(({ data: { session } }) => {
       setIsAuthed(!!session)
       if (session?.user) {
-        setOnboardingCompleted(session.user.user_metadata?.onboarding_completed === true)
+        setOnboardingCompleted(session.user.user_metadata?.onboarding_completed ?? true)
         loginRevenueCat(session.user.id)
         identify(session.user.id, session.user.email ? { email: session.user.email } : undefined)
       } else {
         setOnboardingCompleted(null)
       }
     }).catch(() => {
-      console.warn('[Auth] Could not reach Supabase — defaulting to signed-out state.')
       setIsAuthed(false)
+      setOnboardingCompleted(null)
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         setIsAuthed(true)
-        setOnboardingCompleted(session.user.user_metadata?.onboarding_completed === true)
+        setOnboardingCompleted(session.user.user_metadata?.onboarding_completed ?? true)
         loginRevenueCat(session.user.id)
         identify(session.user.id, session.user.email ? { email: session.user.email } : undefined)
       }

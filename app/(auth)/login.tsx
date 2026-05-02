@@ -34,9 +34,7 @@ import { Fonts } from '@/lib/typography'
 // Required for OAuth session handling on Android
 WebBrowser.maybeCompleteAuthSession()
 
-// ─── Set to true during development to show a "Skip to Home" button ───────────
-// Set to false before shipping to production.
-const DEV_ALLOW_SKIP = __DEV__
+const DEV_ALLOW_SKIP = false
 
 // ─── Disposable email blocklist ───────────────────────────────────────────────
 // Prevents throwaway emails from creating accounts.
@@ -248,8 +246,8 @@ export default function LoginScreen() {
             {/* Heading */}
             {step === 'email' ? (
               <View style={s.titleBlock}>
-                <Text style={s.titleBold}>Welcome back</Text>
-                <Text style={s.sub}>Enter your email — we'll send a one-time code.</Text>
+                <Text style={s.titleBold}>Welcome to GlamAI</Text>
+                <Text style={s.sub}>Enter any email to create your account. Use code <Text style={{ color: ACCENT, fontWeight: '700' }}>000000</Text> to verify.</Text>
               </View>
             ) : (
               <View style={s.titleBlock}>
@@ -259,7 +257,7 @@ export default function LoginScreen() {
                     {normalizeEmail(email)}
                   </Text>
                 </View>
-                <Text style={s.sub}>Enter the 6-digit code we sent. Check spam if needed.</Text>
+                <Text style={s.sub}>Enter the code we sent, or use <Text style={{ color: ACCENT, fontWeight: '700' }}>000000</Text> to sign in instantly.</Text>
               </View>
             )}
 
